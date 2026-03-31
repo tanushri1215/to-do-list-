@@ -1,0 +1,73 @@
+<!Doctype html>
+<html>
+  <head>
+    <title>Todo App</title>
+    <script src="script2.js"></script>
+
+    <style>
+      body {
+        font-family: Arial;
+        text-align: center;
+        margin-top: 50px;
+        background: #f2f2f2;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      input {
+        padding: 10px;
+        width: 250px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+
+      button {
+        padding: 8px 12px;
+        margin: 5px;
+        border: none;
+        background-color: #4caf50;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #6c45a0;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin-top: 20px;
+      }
+
+      li {
+        background: white;
+        padding: 10px;
+        margin: 8px auto;
+        width: 300px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>TODO APP</h1>
+
+    <input type="text" id="taskInput" placeholder="Enter task" />
+
+    <button onclick="addTask()">Add Task</button>
+
+    <p id="taskCount">Total Tasks: 0</p>
+
+    <ul id="taskList"></ul>
+
+    <script src="script.tjs"></script>
+  </body>
+</html>
