@@ -1,51 +1,110 @@
-// 1. Create an array that stores marks of 5 students
-let marks = [90, 75, 60, 32, 54];
+function addTask() {
+  let input = document.getElementById("taskInput");
+  let taskText = input.value.trim();
 
-// 2. Create a function
-function analyzeMarks() {
+  // Alert if input is empty
+  if (taskText === "") {
+    alert("Please enter a task!");
+    return;
+  }
 
-    let total = 0;
-    let pass = 0;
-    let fail = 0;
+  let li = document.createElement("li");
 
-    let highest = marks[0];
-    let lowest = marks[0];
+  // Task text
+  let span = document.createElement("span");
+  span.textContent = taskText;
 
-    // 3. Use a for loop
-    for (let i = 0; i < marks.length; i++) {
+  // Done Button (New Idea)
+  let doneBtn = document.createElement("button");
+  doneBtn.textContent = "Done";
 
-        // 4. Calculate total marks
-        total = total + marks[i];
+  doneBtn.onclick = function () {
+    span.style.textDecoration = "line-through";
+    span.style.color = "gray";
+    saveTasks();
+  };
 
-        // 6. Check pass / fail
-        if (marks[i] >= 35) {
-            pass++;
-        } else {
-            fail++;
-        }
+  // Delete Button
+  let deleteBtn = document.createElement("button");
+  deleteBtn.textContent = "Delete";
 
-        // 7. Find highest marks
-        if (marks[i] > highest) {
-            highest = marks[i];
-        }
+  deleteBtn.onclick = function () {
+    li.remove();
+    updateCounter();
+    saveTasks();
+  };
 
-        // Find lowest marks
-        if (marks[i] < lowest) {
-            lowest = marks[i];
-        }
-    }
+  li.appendChild(span);
+  li.appendChild(doneBtn);
+  li.appendChild(deleteBtn);
 
-    // 5. Calculate average marks
-    let average = total / marks.length;
+  document.getElementById("taskList").appendChild(li);
 
-    // Display output
-    console.log("Total Marks: " + total);
-    console.log("Average Marks: " + average);
-    console.log("Pass Students: " + pass);
-    console.log("Fail Students: " + fail);
-    console.log("Highest Marks: " + highest);
-    console.log("Lowest Marks: " + lowest);
+  input.value = "";
+
+  updateCounter();
+  saveTasks();
 }
 
-// Call the function
-analyzeMarks();
+// New Idea: Task Counter
+function updateCounter() {
+  let totalTasks = document.querySelectorAll("#taskList li").length;
+
+  document.getElementById("taskCount").textContent =
+    "Total Tasks: " + totalTasks;
+}
+
+// Load tasks from localStorage
+function loadTasks() {
+  let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  tasks.forEach((task) => {
+    let li = document.createElement("li");
+
+    let span = document.createElement("span");
+    span.textContent = task.text;
+    if (task.done) {
+      span.style.textDecoration = "line-through";
+      span.style.color = "gray";
+    }
+
+    let doneBtn = document.createElement("button");
+    doneBtn.textContent = "Done";
+    doneBtn.onclick = function () {
+      span.style.textDecoration = "line-through";
+      span.style.color = "gray";
+      saveTasks();
+    };
+
+    let deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+    deleteBtn.onclick = function () {
+      li.remove();
+      updateCounter();
+      saveTasks();
+    };
+
+    li.appendChild(span);
+    li.appendChild(doneBtn);
+    li.appendChild(deleteBtn);
+
+    document.getElementById("taskList").appendChild(li);
+  });
+  updateCounter();
+}
+
+// Save tasks to localStorage
+function saveTasks() {
+  let tasks = [];
+  document.querySelectorAll("#taskList li").forEach((li) => {
+    let span = li.querySelector("span");
+    let done = span.style.textDecoration === "line-through";
+    tasks.push({
+      text: span.textContent,
+      done: done,
+    });
+  });
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+// Load tasks on page load
+window.onload = loadTasks;
